@@ -77,3 +77,77 @@ or
 ## Status Codes
 - `201 Created`: User registered successfully
 - `400 Bad Request`: Validation failed or missing/invalid data
+
+# User Login Endpoint Documentation
+
+## Endpoint
+
+`POST /api/users/login`
+
+## Description
+Authenticates a user with email and password. Returns a JWT token and user information upon successful login.
+
+## Request Body
+The following fields are required in the JSON body:
+
+```
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 8 chars, required)"
+}
+```
+
+### Example Request
+```
+POST /api/users/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "yourpassword123"
+}
+```
+
+## Responses
+
+### Success (200 OK)
+```
+{
+  "token": "<jwt_token>",
+  "user": {
+    "_id": "<user_id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com"
+    // ...other user fields
+  }
+}
+```
+
+### Validation Error (400 Bad Request)
+```
+{
+  "errors": [
+    {
+      "msg": "Invalid email",
+      "param": "email",
+      "location": "body"
+    },
+    // ...other errors
+  ]
+}
+```
+
+### Authentication Error (401 Unauthorized)
+```
+{
+  "error": "Invalid email or password"
+}
+```
+
+## Status Codes
+- `200 OK`: Login successful
+- `400 Bad Request`: Validation failed or missing/invalid data
+- `401 Unauthorized`: Invalid email or password
