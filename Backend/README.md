@@ -151,3 +151,99 @@ Content-Type: application/json
 - `200 OK`: Login successful
 - `400 Bad Request`: Validation failed or missing/invalid data
 - `401 Unauthorized`: Invalid email or password
+
+# User Profile Endpoint Documentation
+
+## Endpoint
+
+`GET /api/users/profile`
+
+## Description
+Returns the authenticated user's profile information. Requires a valid JWT token in the `Authorization` header or `token` cookie.
+
+## Request Headers
+
+- `Authorization: Bearer <jwt_token>` (or send token as a cookie named `token`)
+
+## Responses
+
+### Success (200 OK)
+```
+{
+  "_id": "<user_id>",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john@example.com"
+  // ...other user fields
+}
+```
+
+### Authentication Error (401 Unauthorized)
+```
+{
+  "error": "Authentication token is missing"
+}
+```
+or
+```
+{
+  "error": "Unauthorized"
+}
+```
+or
+```
+{
+  "error": "User not found"
+}
+```
+
+## Status Codes
+- `200 OK`: Profile fetched successfully
+- `401 Unauthorized`: Missing or invalid token, or user not found
+
+# User Logout Endpoint Documentation
+
+## Endpoint
+
+`GET /api/users/logout`
+
+## Description
+Logs out the authenticated user by blacklisting the current JWT token and clearing the authentication cookie. Requires a valid JWT token.
+
+## Request Headers
+
+- `Authorization: Bearer <jwt_token>` (or send token as a cookie named `token`)
+
+## Responses
+
+### Success (200 OK)
+```
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Authentication Error (401 Unauthorized)
+```
+{
+  "error": "Authentication token is missing"
+}
+```
+or
+```
+{
+  "error": "Unauthorized"
+}
+```
+or
+```
+{
+  "error": "User not found"
+}
+```
+
+## Status Codes
+- `200 OK`: Logout successful
+- `401 Unauthorized`: Missing or invalid token, or user not found
