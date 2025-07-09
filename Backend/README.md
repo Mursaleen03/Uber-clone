@@ -247,3 +247,106 @@ or
 ## Status Codes
 - `200 OK`: Logout successful
 - `401 Unauthorized`: Missing or invalid token, or user not found
+
+# Captain Registration Endpoint Documentation
+
+## Endpoint
+
+`POST /api/captains/register`
+
+## Description
+Registers a new captain in the system. The endpoint expects captain and vehicle details in the request body and returns a JWT token and captain information upon successful registration.
+
+## Request Body
+The following fields are required in the JSON body:
+
+```
+{
+  "fullname": {
+    "firstname": "string (min 3 chars, required)",
+    "lastname": "string (min 3 chars, optional)"
+  },
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)",
+  "vehicle": {
+    "plate": "string (min 3 chars, required)",
+    "color": "string (min 3 chars, required)",
+    "capacity": "number (min 1, required)",
+    "type": "string (car, bike, auto, or van, required)"
+  }
+}
+```
+
+### Example Request
+```
+POST /api/captains/register
+Content-Type: application/json
+
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john@example.com",
+  "password": "Test@123",
+  "vehicle": {
+    "plate": "KA01TE1234",
+    "color": "Grey",
+    "capacity": 4,
+    "type": "car"
+  }
+}
+```
+
+## Responses
+
+### Success (201 Created)
+```
+{
+  "token": "<jwt_token>",
+  "captain": {
+    "_id": "<captain_id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "vehicle": {
+      "plate": "KA01TE1234",
+      "color": "Grey",
+      "capacity": 4,
+      "type": "car"
+    }
+    // ...other captain fields
+  }
+}
+```
+
+### Validation Error (400 Bad Request)
+```
+{
+  "errors": [
+    {
+      "msg": "Please enter a valid email address",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "First name must be at least 3 characters long",
+      "param": "fullname.firstname",
+      "location": "body"
+    },
+    // ...other errors
+  ]
+}
+```
+or
+```
+{
+  "message": "Captain already exists"
+}
+```
+
+## Status Codes
+- `201 Created`: Captain registered successfully
+- `400 Bad Request`: Validation failed or missing/invalid data

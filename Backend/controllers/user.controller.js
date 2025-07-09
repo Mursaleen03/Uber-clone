@@ -12,6 +12,10 @@ module.exports.registerUser = async (req, res, next) => {
         }
 
         const {fullname, email, password} = req.body;
+        const isUserExists = await userModel.find({email});
+        if (isUserExists.length > 0) {
+            return res.status(400).json({message: 'User already exists'});
+        }
 
         // Validate fullname structure
         if (!fullname || typeof fullname !== 'object' || !fullname.firstname) {
