@@ -350,3 +350,168 @@ or
 ## Status Codes
 - `201 Created`: Captain registered successfully
 - `400 Bad Request`: Validation failed or missing/invalid data
+
+# Captain Login Endpoint Documentation
+
+## Endpoint
+
+`POST /api/captains/login`
+
+## Description
+Authenticates a captain with email and password. Returns a JWT token and captain information upon successful login.
+
+## Request Body
+The following fields are required in the JSON body:
+
+```
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)"
+}
+```
+
+### Example Request
+```
+POST /api/captains/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "Test@123"
+}
+```
+
+## Responses
+
+### Success (200 OK)
+```
+{
+  "token": "<jwt_token>",
+  "captain": {
+    "_id": "<captain_id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "vehicle": {
+      "plate": "KA01TE1234",
+      "color": "Grey",
+      "capacity": 4,
+      "type": "car"
+    }
+    // ...other captain fields
+  }
+}
+```
+
+### Validation Error (400 Bad Request)
+```
+{
+  "errors": [
+    {
+      "msg": "Please enter a valid email address",
+      "param": "email",
+      "location": "body"
+    },
+    // ...other errors
+  ]
+}
+```
+
+### Authentication Error (400 Bad Request)
+```
+{
+  "message": "Invalid email or password"
+}
+```
+
+## Status Codes
+- `200 OK`: Login successful
+- `400 Bad Request`: Validation failed or invalid credentials
+
+# Captain Profile Endpoint Documentation
+
+## Endpoint
+
+`GET /api/captains/profile`
+
+## Description
+Returns the authenticated captain's profile information. Requires a valid JWT token in the `Authorization` header or `token` cookie.
+
+## Request Headers
+
+- `Authorization: Bearer <jwt_token>` (or send token as a cookie named `token`)
+
+## Responses
+
+### Success (200 OK)
+```
+{
+  "captain": {
+    "_id": "<captain_id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "vehicle": {
+      "plate": "KA01TE1234",
+      "color": "Grey",
+      "capacity": 4,
+      "type": "car"
+    }
+    // ...other captain fields
+  }
+}
+```
+
+### Authentication Error (401 Unauthorized)
+```
+{
+  "error": "Unauthorized"
+}
+```
+or
+```
+{
+  "error": "Captain not found"
+}
+```
+
+## Status Codes
+- `200 OK`: Profile fetched successfully
+- `401 Unauthorized`: Missing or invalid token, or captain not found
+
+# Captain Logout Endpoint Documentation
+
+## Endpoint
+
+`GET /api/captains/logout`
+
+## Description
+Logs out the authenticated captain by blacklisting the current JWT token and clearing the authentication cookie. Requires a valid JWT token.
+
+## Request Headers
+
+- `Authorization: Bearer <jwt_token>` (or send token as a cookie named `token`)
+
+## Responses
+
+### Success (200 OK)
+```
+{
+  "message": "Logout successfully"
+}
+```
+
+### Authentication Error (401 Unauthorized)
+```
+{
+  "error": "Unauthorized"
+}
+```
+
+## Status Codes
+- `200 OK`: Logout successful
+- `401 Unauthorized`: Missing or invalid token, or captain not found

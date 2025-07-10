@@ -1,0 +1,41 @@
+[
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODZlMDEzYjFjOGU3ZGQ3MzIzZWFjMDYiLCJpYXQiOjE3NTIwMzk3MzksImV4cCI6MTc1MjEyNjEzOX0.PlKqLozimSahOcRAgx6Wd7lX6jRZVG95U5rTmzFpb4M",
+    "captain": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "john@example.com",
+        "password": "$2b$10$1ShSm6pKiVniTDeo4wRRxupsVD5DeZsPr0GvAuto4U/zQHRc3k5zm",
+        "status": "inactive",
+        "vehicle": {
+            "color": "Grey",
+            "plate": "KA01TE1234",
+            "capacity": 4,
+            "type": "car"
+        },
+        "_id": "686e013b1c8e7dd7323eac06"
+    }
+},
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcwMDQ4MTdhOGMzNDY2NmZhZDdmNmMiLCJpYXQiOjE3NTIxNzE2NDksImV4cCI6MTc1MjI1ODA0OX0.rR0pPh9uL2uDtp_-vgrKfHAd8j_C_fdrxWruDSCTE5w",
+    "captain": {
+        "fullname": {
+            "firstname": "test_firstname",
+            "lastname": "test_lastname"
+        },
+        "email": "test2@examplee.com",
+        "password": "$2b$10$9xC4clVvairu6QHKq8/yj.8k73S6Zw9VHpn47GiUll3UWDBRjt0Gy",
+        "status": "inactive",
+        "vehicle": {
+            "color": "Grey",
+            "plate": "KA01TE1233",
+            "capacity": 4,
+            "type": "car"
+        },
+        "_id": "687004817a8c34666fad7f6c",
+        "__v": 0
+    }
+}
+]
