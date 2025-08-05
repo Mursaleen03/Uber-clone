@@ -3,6 +3,10 @@ import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel'
+import VehiclePanel from '../components/VehiclePanel'
+import ConfirmedRide from '../components/ConfirmedRide'
+import LookingForDriver from '../components/LookingForDriver'
+import WaitingForDriver from '../components/WaitingForDriver'
 
 
 const Home = () => {
@@ -10,7 +14,15 @@ const Home = () => {
   const [destination, setDestination] = useState('')
   const [panelOpen, setPanelOpen] = useState(false)
   const panelRef = useRef(null)
+  const vehiclePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
   const panelCloseRef = useRef(null)
+  const vehicleFoundRef = useRef(null)
+  const waitingForDriverRef = useRef(null)
+  const [vehiclePanel, setVehiclePanel] = useState(false)
+  const [confirmedRidePanel, setConfirmedRidePanel] = useState(false)
+  const [vehicleFound, setVehicleFound] = useState(false)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
 
   const submitHandler = (e)=>{
     e.preventDefault()
@@ -38,12 +50,36 @@ const Home = () => {
     }
   }, [panelOpen])
 
+  useGSAP(() => {
+    gsap.to(vehiclePanelRef.current, {
+      translateY: vehiclePanel ? '0%' : '100%',
+  })
+}, [vehiclePanel])
+
+  useGSAP(() => {
+    gsap.to(confirmRidePanelRef.current, {
+      translateY: confirmedRidePanel ? '0%' : '100%',
+  })
+}, [confirmedRidePanel])
+
+  useGSAP(() => {
+    gsap.to(vehicleFoundRef.current, {
+      translateY: vehicleFound ? '0%' : '100%',
+  })
+}, [vehicleFound])
+
+  useGSAP(() => {
+    gsap.to(waitingForDriverRef.current, {
+      translateY: waitingForDriver ? '0%' : '100%',
+  })
+}, [waitingForDriver])
+
   return (
-    <div className='relative h-screen'>
+    <div className='relative h-screen overflow-hidden'>
         <img className='w-16 absolute left-4 top-4' src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Logo.png" alt="" />
 
         <div className='h-screen w-screen'>
-          <img className='h-full w-full object-cover' src="/src/assets/map.png" alt="" srcset="" />
+          <img className='h-full w-full object-cover' src="/src/assets/map.png" />
         </div>
         <div className='flex flex-col justify-end h-screen absolute top-0 left-0 right-0'>
           <div className='h-[30%] p-6 bg-white relative'>
@@ -85,8 +121,21 @@ const Home = () => {
         </form>
           </div>
           <div ref={panelRef} className='h-0 bg-white'>
-            <LocationSearchPanel />
+            <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
           </div>
+        </div>
+        <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10'>
+          <VehiclePanel setConfirmedRidePanel={setConfirmedRidePanel} setVehiclePanel={setVehiclePanel} />
+
+        </div>
+        <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10'>
+          <ConfirmedRide setConfirmedRidePanel={setConfirmedRidePanel} setVehicleFound={setVehicleFound} />
+        </div>
+        <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10'>
+          <LookingForDriver setVehicleFound={setVehicleFound} />
+        </div>
+        <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 bg-white px-3 py-10'>
+          <WaitingForDriver waitingForDriver={waitingForDriver} />
         </div>
     </div>
   )
